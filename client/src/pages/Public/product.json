@@ -1,0 +1,107 @@
+[
+    {
+      "id": 1,
+      "name": "Smart Watch",
+      "price": 1000,
+      "description": "This is a smart watch with multiple features.",
+      "category": "Electronics",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Smart+Watch+Image+1",
+        "https://via.placeholder.com/300x200?text=Smart+Watch+Image+2",
+        "https://via.placeholder.com/300x200?text=Smart+Watch+Image+3"
+      ],
+      "rating": 4
+    },
+    {
+      "id": 2,
+      "name": "Air31",
+      "price": 1000,
+      "description": "This is a high-quality air purifier with multiple features.",
+      "category": "Home Appliances",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Air31+Image+1",
+        "https://via.placeholder.com/300x200?text=Air31+Image+2",
+        "https://via.placeholder.com/300x200?text=Air31+Image+3"
+      ],
+      "rating": 4
+    },
+    {
+      "id": 3,
+      "name": "Bluetooth Speaker",
+      "price": 150,
+      "description": "Portable Bluetooth speaker with excellent sound quality.",
+      "category": "Electronics",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Bluetooth+Speaker+Image+1",
+        "https://via.placeholder.com/300x200?text=Bluetooth+Speaker+Image+2",
+        "https://via.placeholder.com/300x200?text=Bluetooth+Speaker+Image+3"
+      ],
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "name": "Electric Kettle",
+      "price": 50,
+      "description": "Fast boiling electric kettle with auto shut-off feature.",
+      "category": "Home Appliances",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Electric+Kettle+Image+1",
+        "https://via.placeholder.com/300x200?text=Electric+Kettle+Image+2",
+        "https://via.placeholder.com/300x200?text=Electric+Kettle+Image+3"
+      ],
+      "rating": 3
+    },
+    {
+      "id": 5,
+      "name": "Wireless Earbuds",
+      "price": 200,
+      "description": "Noise-cancelling wireless earbuds with long battery life.",
+      "category": "Electronics",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Wireless+Earbuds+Image+1",
+        "https://via.placeholder.com/300x200?text=Wireless+Earbuds+Image+2",
+        "https://via.placeholder.com/300x200?text=Wireless+Earbuds+Image+3"
+      ],
+      "rating": 4
+    },
+    {
+      "id": 6,
+      "name": "Robot Vacuum Cleaner",
+      "price": 300,
+      "description": "Automated robot vacuum cleaner with smart navigation.",
+      "category": "Home Appliances",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Robot+Vacuum+Cleaner+Image+1",
+        "https://via.placeholder.com/300x200?text=Robot+Vacuum+Cleaner+Image+2",
+        "https://via.placeholder.com/300x200?text=Robot+Vacuum+Cleaner+Image+3"
+      ],
+      "rating": 5
+    },
+    {
+      "id": 7,
+      "name": "Gaming Mouse",
+      "price": 70,
+      "description": "High-precision gaming mouse with customizable buttons.",
+      "category": "Electronics",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Gaming+Mouse+Image+1",
+        "https://via.placeholder.com/300x200?text=Gaming+Mouse+Image+2",
+        "https://via.placeholder.com/300x200?text=Gaming+Mouse+Image+3"
+      ],
+      "rating": 4
+    },
+    {
+      "id": 8,
+      "name": "Smart Thermostat",
+      "price": 120,
+      "description": "Smart thermostat with remote control and energy-saving features.",
+      "category": "Home Appliances",
+      "images": [
+        "https://via.placeholder.com/300x200?text=Smart+Thermostat+Image+1",
+        "https://via.placeholder.com/300x200?text=Smart+Thermostat+Image+2",
+        "https://via.placeholder.com/300x200?text=Smart+Thermostat+Image+3"
+      ],
+      "rating": 4
+    }
+  ]
+  
