@@ -10,6 +10,19 @@ import axiosInstance from '../publicaxios';
 import Footer from './Footer';
 import BottomNavbar from './BottomNavbar';
 
+
+
+
+
+// import { Link } from 'react-router-dom';
+// // import Logo from '../../Assets/logo.jpg';
+// // import { FaRegUser } from "react-icons/fa";
+// import { FaCartPlus } from "react-icons/fa6";
+// // import CountryDropdown from '../CountryDropdown';
+// import { Button } from '@mui/material';
+// // import SearchBox from './SearchBox';
+
+
 const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -187,8 +200,8 @@ const Layout = () => {
                 </div>
               ) : (
                 <div className='lg:ml-[15rem]  max-lg:w-[12rem] max-lg:p-4    max-lg:rounded-lg    max-lg:bg-white   md:rounded-none z-40 '>
-                <div className=" ">
-                  <div className="lg:mt-4  ">
+                <div>
+                  {/* <div className="lg:mt-4  ">
                     <div className="grid grid-cols-5 max-lg:grid-cols-1 gap-5 lg:items-center  lg:w-[30rem] lg:m-5 ">
                       <Link to="/" className="text-lg text-gray-800  hover:text-green-600">Home</Link>
                       <Link to="/about" className="text-lg  text-gray-800 hover:text-green-600">About Us</Link>
@@ -209,15 +222,20 @@ const Layout = () => {
                         size={24}
                         className="max-lg:hidden text-gray-800 cursor-pointer hover:text-green-600 transition duration-300"
                         onClick={handleSearchClick}
-                        />
+                        /> */}
+
+              
+
                   <div className='lg:absolute right-[-55rem]'>
                     <GoogleLogin />
                     </div>
                     </div>
                         </div>
-                  </div>
-                </div>
-              )}
+                  // </div>
+                // </div>
+                
+              )
+              }
             </nav>
             {user && (
               <button

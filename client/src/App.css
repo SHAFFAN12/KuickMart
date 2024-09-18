@@ -40,3 +40,447 @@
 .read-the-docs {
   color: #888;
 }
+
+
+
+/* 
+
+
+.headerWrapper{
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.headerWrapper .top-strip{
+  padding: 8px 0px;
+  }
+  
+  .headerWrapper .top-strip p{
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+}
+.headerWrapper header{
+  width: 100%;
+  height: auto;
+  padding: 25px 0px;
+}
+
+.logoWrapper img{
+  width: 100%;
+}
+
+.headerWrapper header .part2 .countryDrop{
+  width: 170px;
+  height: 50px;
+  min-width: 170px;
+  text-align: left;
+  justify-content: flex-start !important;
+  color: #000 !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  border-radius: 7px !important;
+  padding: 10px 15px !important;
+}
+
+.headerWrapper header .part2 .countryDrop .label{
+  font-size: 12px !important;
+  text-transform: capitalize !important;
+  color: rgba(0,0,0,0.4) !important;
+  line-height: 16px;
+  }
+
+.headerWrapper header .part2 .countryDrop .name{
+  font-size: 14px !important;
+  text-transform: capitalize !important;
+  color: #233a95 !important;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.headerWrapper header .part2 .countryDrop span.ml-auto svg{
+  opacity: 0.7;
+}
+
+.headerSearch{
+  width: 58%;
+  height: 50px;
+  background: #f3f4f7;
+  padding: 5px;
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.headerSearch input{
+  background: transparent !important;
+  outline: none;
+  font-size: 15px;
+  color: rgba(0,0,0,0.7);
+  width: 100%;
+  height: 45px;
+  border: 0px !important;
+  padding: 0px 20px !important;
+}
+
+.headerSearch input::-webkit-input-placeholder{
+  color: rgba(0,0,0,0.6);
+}
+
+
+.headerSearch Button{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  min-width: 40px !important;
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 50% !important;
+  color: #000;
+}
+
+.headerSearch Button svg{
+  font-size: 25px;
+  opacity: 0.8;
+}
+
+header .part3 .circle{
+  align-items: center;
+  justify-content: center;
+  min-width: 45px !important;
+  height: 45px !important;
+  width: 45px !important;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 50% !important;
+  color: #000;
+}
+
+header .part3 .circle svg{
+  font-size: 22px;
+}
+
+.cartTab .price{
+  font-size: 16px;
+  color: rgba(0,0,0,0.8);
+  font-weight: 700;
+}
+.cartTab Button{
+  background: #fff1ee !important;
+}
+
+.cartTab Button svg{
+  color: #ea2b0f !important;
+}
+.cartTab .count{
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  background: #ea2b0f;
+  border-radius: 50%;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+}
+
+.locationModel .MuiPaper-elevation{
+  padding: 25px;
+  position: relative;
+}
+
+.locationModel .countryList{
+  margin-bottom: 0px;
+  max-height: 400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.locationModel .countryList li{
+  width: 100%;
+  list-style: none;
+}
+
+.locationModel .countryList li button{
+  width: 100%;
+  text-transform: capitalize !important;
+  color: #000 !important;
+  justify-content: flex-start !important;
+  padding: 10px 20px !important;
+}
+
+.locationModel .countryList li button:hover{
+  background: #f1f1f1;
+}
+
+.locationModel .countryList li button.active{
+  background: #e2e2e2 !important;
+}
+
+ .closeButton{
+  position: absolute !important;
+  top: 10px;
+  right: 10px;
+  color: #000 !important;
+  min-width: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+}
+.closeButton svg{
+  font-size: 22px;
+}
+
+nav .navPart1{
+  max-width: 20%;
+  flex: 0 0 20%;
+}
+
+nav .navPart2{
+  max-width: 80%;
+  flex: 0 0 80%;
+}
+
+nav .navPart1 .catWrapper{
+  position: relative;
+}
+
+nav .navPart1 .catWrapper .sidebarNav{
+  width: 100%;
+  height: 0px;
+  opacity: 0;
+  background: #fff;
+  position: absolute;
+  top: 136%;
+  left: 0px;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 15px 0px;
+  transition: all .2s ;
+  visibility: hidden;
+  z-index: 200;
+}
+
+nav .navPart1 .catWrapper .sidebarNav.open{
+  height: auto;
+  opacity: 1;
+  visibility: inherit;
+}
+
+
+nav .navPart1 .catWrapper .sidebarNav ul li{
+  width: 100%;
+  list-style: none;
+  padding: 0px 10px;
+}
+
+nav .navPart1 .catWrapper .sidebarNav ul li button{
+  color: #000;
+  width: 100%;
+  justify-content: flex-start;
+  text-transform: capitalize !important;
+}
+
+nav .navPart1 .catWrapper .sidebarNav ul li button svg{
+  font-size: 12px;
+  opacity: 0.6;
+}
+nav .navPart1 .catWrapper .sidebarNav ul li button:hover{
+  background: transparent !important;
+  color:red;
+}
+
+nav .navPart1 .catWrapper .sidebarNav ul li{
+  position: static;
+}
+nav .navPart1 .catWrapper .sidebarNav ul li .subMenu{
+  position: absolute;
+  top: 0px;
+  left: 105%;
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .2s ease-in-out;
+  border-left: 1px solid rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+nav .navPart1 .catWrapper .sidebarNav ul li:hover .subMenu{
+  opacity: 1;
+  visibility: inherit;
+  left: 100%;
+}
+
+nav .navPart1 .catWrapper .sidebarNav ul li:hover .subMenu button{
+  border-radius: 0px !important;
+}
+
+
+
+nav .CategoryTab{
+  background: #2bbef9;
+  padding: 10px 15px !important;
+  border-radius: 30px !important;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+nav .CategoryTab *{
+  color: #fff;
+}
+
+nav .CategoryTab:hover{
+  background: #2bbef9;
+}
+
+nav .CategoryTab .text{
+  font-weight: 600;
+}
+
+nav .CategoryTab .icon1 svg{
+  font-size: 20px !important;
+}
+
+nav .CategoryTab .icon2 svg{
+  font-size: 15px !important;
+}
+
+nav .navPart2 ul{
+  margin-bottom: 0px;
+}
+nav .navPart2 ul li{
+  padding-bottom: 20px;
+}
+nav .navPart2 ul li a svg{
+  font-size: 20px;
+}
+nav .navPart2 ul li a{
+  text-decoration: none;
+}
+nav .navPart2 ul li a button{
+  font-size: 14px !important;
+  font-weight: 600;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  transition: all 0.2s ease-in-out;
+  border-radius: 25px;
+}
+
+nav .navPart2 ul li a:hover{
+  background: #f0faff;
+  color: #2bbef9;
+}
+
+nav .navPart2 ul li {
+  position: relative;
+}
+nav .navPart2 ul li .subMenu{
+  position: absolute;
+  top: 150%;
+  left: 0px;
+  min-width: 200px;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .2s ease-in-out;
+  z-index: 100;
+}
+
+nav .navPart2 ul li .subMenu a{
+  display: block;
+  width: 100%;
+}
+
+nav .navPart2 ul li .subMenu a button{
+  width: 100%;
+  justify-content: flex-start !important;
+  border-radius: 0px !important;
+  text-transform: capitalize !important;
+  font-weight: 600 !important;
+}
+
+nav .navPart2 ul li .subMenu a button:hover{
+  background: #f1f1f1 !important;
+}
+
+nav .navPart2 ul li:hover .subMenu{
+  opacity: 1;
+  visibility: inherit;
+  top: 100%;
+}
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+.input-field {
+  max-width: 380px;
+  width: 100%;
+  background-color: #f0f0f0;
+  margin: 10px 0;
+  height: 55px;
+  border-radius: 55px;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.input-field svg {
+  margin-right: 10px;
+  color: #acacac;
+  font-size: 1.5rem;
+}
+
+.input-field input {
+  background: none;
+  outline: none;
+  border: none;
+  width: 100%;
+  padding-left: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+
+.input-field input::placeholder {
+  color: #aaa;
+  font-weight: 500;
+}
+.showPassword{
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  cursor: pointer;
+}
+
+.showPassword svg{
+  color: #5e5d72;
+  font-size: 22px;
+} */
+.focus svg{
+  color: #0858f7 !important;
+}
+
+.focus:focus{
+  border: 1px solid #0858f7 !important;
+}
+
+

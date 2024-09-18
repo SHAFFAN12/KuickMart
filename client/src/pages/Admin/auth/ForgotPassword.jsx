@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../../adminaxios';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { MdEmail } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 
 const ForgotPassword = ({ onSwitch }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const validatePassword = (password) => {
     return {
@@ -77,6 +78,7 @@ const ForgotPassword = ({ onSwitch }) => {
       const [code, newPassword] = formValues;
 
       try {
+        setLoading(true);
         await axiosInstance.post('/auth/admin/reset-password', { token: code, newPassword });
         Swal.fire({
           title: 'Success!',
@@ -104,12 +106,15 @@ const ForgotPassword = ({ onSwitch }) => {
             confirmButton: 'bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg',
           },
         });
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       await axiosInstance.post('/auth/admin/forgot-password', data);
       Swal.fire({
         title: 'Success!',
@@ -138,35 +143,45 @@ const ForgotPassword = ({ onSwitch }) => {
           confirmButton: 'bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg',
         },
       });
+    } finally {
+      setLoading(false);
     }
   };
 
+  const [inputIndex, setInputIndex] = useState(null);
+  const focusInput = (index) => {
+    setInputIndex(index);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 rounded-lg shadow-lg">
       <div className="text-center text-3xl font-bold text-gray-700 mb-6">Forgot Password</div>
 
-      <div className="flex items-center border-b-2 border-gray-300 py-2">
-        <input 
-          {...register('email', { required: 'Email is required' })} 
-          type="email" 
-          placeholder="Enter your email" 
-          className="w-full p-2 border-none outline-none text-gray-700" 
+      <div className={`flex items-center bg-gray-100 rounded-full px-4 py-3 ${inputIndex === 0 && 'ring-2 ring-blue-400'}`}>
+        <MdEmail className="text-gray-400 mr-2" />
+        <input
+          {...register('email', { required: 'Email is required' })}
+          type="email"
+          placeholder="Enter Your Email"
+          onFocus={() => focusInput(0)}
+          className="bg-transparent w-full outline-none text-gray-700"
         />
       </div>
       {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
 
       <button 
         type="submit" 
-        className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300"
+        disabled={loading} 
+        className={`w-full py-3 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-blue-700'} text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105`}
       >
-        Send Reset Link
+        {loading ? 'Sending...' : 'Send Reset Link'}
       </button>
 
       <div className="text-center">
         <button 
           type="button" 
           onClick={() => onSwitch('register')} 
-          className="text-blue-500 hover:underline mt-4"
+          className="text-blue-500 hover:font-semibold hover:text-blue-700 mt-4"
         >
           Register
         </button>

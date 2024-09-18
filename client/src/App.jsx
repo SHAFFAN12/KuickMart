@@ -32,7 +32,7 @@ import CustomerDashboard from './pages/Public/CustomerDashboard';
 const App = () => {
   return (
     <Provider store={store}>
-      <GoogleOAuthProvider clientId='845728083182-ugkgempi9bsq113du5l90mtn6es3kse9.apps.googleusercontent.com'>
+      <GoogleOAuthProvider clientId='943329293469-dnkb9eebrmcqclo2njqcfkc9nc3b5ldb.apps.googleusercontent.com'>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -67,3 +67,11 @@ const App = () => {
 };
 
 export default App;
+
+
+
+
+
+
+
+// https://console.cloud.google.com/apis/credentials?project=kuickmart

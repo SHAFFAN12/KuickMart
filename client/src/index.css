@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #4f6d7a, #2a3c6c); /* Gradient background */
+    color: white;
+    font-weight: bold;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background: linear-gradient(90deg, #3a5a6b, #1b2c4d); 
+    transform: scale(1.05); 
+}
+
+.button:disabled {
+    background: #b0bec5; 
+    cursor: not-allowed;
+}
+
+  

@@ -11,8 +11,10 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600">
-      <div className="space-y-6 p-8 max-w-md w-full bg-white shadow-lg rounded-xl">
+    <div className="flex justify-center items-center min-h-screen bg-neutral-200"> 
+      {/* Changed background color to light gray (a soft white shade) */}
+
+      <div className="space-y-6 p-8 max-w-md w-full ">{/*bg-green-400 shadow-lg rounded-xl*/}
         {authState === 'login' && <Login onSwitch={handleSwitch} />}
         {authState === 'register' && <Register onSwitch={handleSwitch} />}
         {authState === 'forgotPassword' && <ForgotPassword onSwitch={handleSwitch} />}
