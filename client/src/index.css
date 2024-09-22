@@ -26,4 +26,18 @@
     cursor: not-allowed;
 }
 
+
+
+.dashboardBox .chart{
+    opacity: 0.060;
+    position: absolute;
+    bottom: 5px;
+    left: 30px;
+}
+
+.dashboardBox .chart svg{
+    font-size: 100px;
+    color: #000;
+ }
+
   

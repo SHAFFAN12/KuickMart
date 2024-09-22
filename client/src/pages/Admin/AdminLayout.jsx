@@ -1,125 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { adminLogout } from './redux/actions/authActions'; // Adjust the import path if needed
-import { FaTachometerAlt, FaBox, FaUsers, FaTags, FaGift, FaBars, FaSignOutAlt, FaThList } from 'react-icons/fa';
+import { adminLogout } from './redux/actions/authActions';
+import { FaUsers, FaTags, FaGift, FaBars, FaSignOutAlt, FaTimes } from 'react-icons/fa';
+import { RiDashboardFill } from "react-icons/ri";
+import { AiFillProduct } from "react-icons/ai";
+import { HiShoppingBag } from "react-icons/hi";
+import { FaGifts } from "react-icons/fa";
+
 import axiosInstance from '../../adminaxios';
 import Swal from 'sweetalert2';
 import io from 'socket.io-client';
-
-const socket = io('http://localhost:5000'); // Update with your server address
-
-const getAdmin = async () => {
-  try {
-    const { data } = await axiosInstance.get('/auth/admin/getadmin');
-    return data;
-  } catch (error) {
-    console.error('Failed to fetch admin details:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Failed to fetch admin details!',
-    });
-  }
-};
-
-const AdminSidebar = ({ isOpen, onClose }) => {
-  return (
-    <aside
-      className={`admin-sidebar bg-blue-800 text-white h-full lg:w-64 lg:block fixed lg:relative transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } lg:translate-x-0`}
-    >
-      <button
-        className="lg:hidden p-2 text-white bg-blue-700 hover:bg-blue-600 focus:outline-none absolute top-4 right-4"
-        onClick={onClose}
-      >
-        <FaBars className="text-xl" />
-      </button>
-      <nav className="p-4">
-        <ul>
-          <li className="py-2">
-            <Link to="/admin/dashboard" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaTachometerAlt className="mr-3" /> Dashboard
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/products" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaBox className="mr-3" /> Manage Products
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/orders" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaBox className="mr-3" /> Manage Orders
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/users" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaUsers className="mr-3" /> Manage Users
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/promotions" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaTags className="mr-3" /> Manage Promotions
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/rewards" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaGift className="mr-3" /> Manage Rewards
-            </Link>
-          </li>
-          <li className="py-2">
-            <Link to="/admin/categories" className="flex items-center hover:bg-blue-700 p-2 rounded transition duration-300">
-              <FaThList className="mr-3" /> Manage Categories
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-  );
-};
-
-const AdminHeader = ({ onToggleSidebar, onLogout, adminName, adminEmail }) => {
-  return (
-    <header className="admin-header bg-blue-900 text-white p-4 flex justify-between items-center shadow-md lg:shadow-none">
-      <button
-        className="lg:hidden p-2 rounded bg-blue-800 hover:bg-blue-700 focus:outline-none"
-        onClick={onToggleSidebar}
-      >
-        <FaBars className="text-xl" />
-      </button>
-      <div className='text-center '>
-        <h1 className="text-2xl font-bold">Admin Panel</h1>
-        {adminName && <p className="text-sm">{adminName} <br />({adminEmail})</p>}
-      </div>
-      <button
-        className="p-2 rounded bg-red-600 hover:bg-red-500 focus:outline-none"
-        onClick={onLogout}
-      >
-        <FaSignOutAlt className="text-xl" />
-      </button>
-    </header>
-  );
-};
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [adminName, setAdminName] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
+  const [activeTab, setActiveTab] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAdminDetails = async () => {
-      const admin = await getAdmin();
-      if (admin) {
-        setAdminName(admin.name);
-        setAdminEmail(admin.email);
+      try {
+        const { data } = await axiosInstance.get('/auth/admin/getadmin');
+        setAdminName(data.name);
+        setAdminEmail(data.email);
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to fetch admin details!',
+        });
       }
     };
 
     fetchAdminDetails();
 
+    const socket = io('http://localhost:5000'); // Socket initialized here
     socket.on('receiveNotification', (notification) => {
       Swal.fire({
         title: 'New Notification',
@@ -129,7 +47,7 @@ const AdminLayout = () => {
     });
 
     return () => {
-      socket.off('receiveNotification');
+      socket.disconnect(); // Clean up the socket connection
     };
   }, []);
 
@@ -139,37 +57,121 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You will be logged out!",
+      title: '<span style="color:#0858f7; font-size:24px; font-weight:bold;">Are you sure?</span>',
+      html: '<p style="color:#5e5d72; font-size:16px;">You will be logged out!</p>',
       icon: 'warning',
+      iconColor: '#ffcc00',
+      background: '#fff',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#0858f7',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!'
+      confirmButtonText: '<i class="fas fa-sign-out-alt"></i> Yes, logout!',
+      cancelButtonText: '<i class="fas fa-times-circle"></i> Cancel',
+      buttonsStyling: true,
+      customClass: {
+        popup: 'animate__animated animate__fadeInDown',
+        confirmButton: 'swal2-confirm-custom',
+        cancelButton: 'swal2-cancel-custom'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(adminLogout());
         navigate('/admin/auth'); // Redirect to login page after logout
       }
     });
+};
+
+  const isActiveTab = (index) => {
+    setActiveTab(index);
   };
 
   return (
     <div className="admin-layout h-screen bg-gray-100 flex flex-col lg:flex-row">
       {/* Sidebar */}
-      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <AdminSidebar isOpen={isSidebarOpen} onLogout={handleLogout} onClose={() => setIsSidebarOpen(false)} activeTab={activeTab} isActiveTab={isActiveTab} />
 
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <AdminHeader onToggleSidebar={handleToggleSidebar} onLogout={handleLogout} adminName={adminName} adminEmail={adminEmail} />
+        <AdminHeader onToggleSidebar={handleToggleSidebar} adminName={adminName} adminEmail={adminEmail} />
 
         {/* Main Content */}
-        <main className="flex-1 p-6 bg-white shadow-md rounded-md m-4 lg:m-0 lg:ml-4">
+        <main className="flex-1 overflow-y-auto p-6 bg-white shadow-md rounded-md m-4 lg:m-0 lg:ml-4">
           <Outlet />
         </main>
       </div>
     </div>
   );
 };
+
+const AdminSidebar = ({ isOpen, onClose, onLogout }) => {
+  const location = useLocation(); // Current URL
+
+  // Determine activeTab based on URL
+  const activeTab = () => {
+    if (location.pathname === '/admin/dashboard') return 0;
+    if (location.pathname === '/admin/users') return 1;
+    if (location.pathname === '/admin/products') return 2;
+    if (location.pathname === '/admin/categories') return 3;
+    if (location.pathname === '/admin/orders') return 4;
+    if (location.pathname === '/admin/promotions') return 5;
+    if (location.pathname === '/admin/rewards') return 6;
+    return -1; // Default for non-matching routes
+  };
+
+  return (
+    <aside
+      className={`fixed inset-y-0 left-0 bg-white text-[#5e5d72] h-full w-full lg:w-64 lg:static lg:block lg:relative transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+      style={{ zIndex: 1000 }}
+    >
+      <button
+        className="lg:hidden p-2 text-black hover:text-blue-700 absolute top-0 right-0"
+        onClick={onClose}
+      >
+        <FaTimes />
+      </button>
+      <nav className="p-4">
+        <ul>
+          <li className="py-2">
+            <Link to="/admin/dashboard" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${activeTab() === 0 ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <RiDashboardFill className={`${activeTab() === 0 ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Dashboard
+              </button>
+            </Link>
+          </li>
+
+          {/* Similar code for Users, Products, Categories, etc. */}
+        </ul>
+      </nav>
+    </aside>
+  );
+};
+
+export default AdminSidebar;
+
+const AdminHeader = ({ onToggleSidebar, adminName, adminEmail }) => {
+  return (
+    <header className="admin-header bg-blue-600 text-white py-4 px-6 flex items-center justify-between shadow-md rounded-b-lg">
+      <div className="flex items-center">
+        <button className="text-white lg:hidden mr-4 hover:text-blue-200 transition duration-300" onClick={onToggleSidebar}>
+          <FaBars className="lg:text-2xl text-xl" />
+        </button>
+        <h1 className="text-xl font-bold">Admin Panel</h1>
+      </div>
+      <div className="flex items-center ">
+        <div className="mr-4  text-sm text-center ">
+          <div className="font-medium">{adminName}</div>
+          <div className="text-gray-200 ">{adminEmail}</div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
 
 export default AdminLayout;

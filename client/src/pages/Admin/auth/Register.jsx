@@ -155,6 +155,8 @@ const Register = ({ onSwitch }) => {
     }
   };
 
+  
+
   const focusInput = (index) => {
     setInputIndex(index);
     if (index === 2) {
@@ -210,7 +212,7 @@ const Register = ({ onSwitch }) => {
           className="bg-transparent w-full outline-none text-gray-700"
           autoComplete="current-password"
         />
-        <span onClick={() => setIsShowPassword(!isShowPassword)} className="absolute right-4 cursor-pointer text-gray-500">
+        <span onClick={() => setIsShowPassword(!isShowPassword)} className="absolute right-4  cursor-pointer text-gray-500">
           {isShowPassword ? <FaRegEyeSlash /> : <FaRegEye />}
         </span>
       </div>
@@ -218,7 +220,7 @@ const Register = ({ onSwitch }) => {
 
       {/* Password validation box that shows up when the password field is focused */}
       {showPasswordHints && (
-        <div id="password-validation" className="absolute bottom-3 right-[-280px] z-10 mt-2 p-6 bg-white rounded-lg shadow-md">
+        <div id="password-validation" className="absolute lg:bottom-3 lg:right-[-280px] z-10 mt-2 lg:p-6 p-4 bg-white rounded-lg shadow-md">
           <h4 className="text-gray-800 mb-2">Password must include:</h4>
           <ul className="list-disc ml-5 text-gray-600">
             <li className={`flex items-center ${passwordValidations.length ? 'text-green-600' : 'text-red-600'}`}>

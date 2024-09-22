@@ -20,6 +20,14 @@ import {
   fetchOrderVolumeDaily,
   fetchAverageDeliveryTime
 } from './components/api';
+import { FaUsers } from 'react-icons/fa';
+import { TiShoppingCart } from "react-icons/ti";
+import { GiShoppingBag } from "react-icons/gi";
+import { FaUserClock } from "react-icons/fa6";
+import { BsCashStack } from "react-icons/bs";
+
+
+
 
 const Reports = () => {
   const [totalSales, setTotalSales] = useState(0);
@@ -96,11 +104,11 @@ const Reports = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <DashboardCard title="Total Sales" value={totalSales} isCurrency />
-            <DashboardCard title="Total Orders" value={orderCount} />
-            <DashboardCard title="Avg Order Value" value={averageOrderValue} isCurrency />
-            <DashboardCard title="Customer Count" value={customerCount} />
-            <DashboardCard title="New Customers" value={newCustomers} />
+            <DashboardCard title="Total Sales" value={totalSales} isCurrency color={["#1da256", "#48d483"]} grow={true} icon={<BsCashStack />}/>
+            <DashboardCard title="Total Orders" value={orderCount} color={["#c012e2", "#eb34fe"]} icon={<TiShoppingCart />} />
+            <DashboardCard title="Avg Order Value" value={averageOrderValue} isCurrency color={["#2c78e5", "#60aff5"]} icon={<GiShoppingBag />}/>
+            <DashboardCard title="Customer Count" value={customerCount} color={["#e1850e", "#f3cd29"]} icon={<FaUserClock/>}/>
+            <DashboardCard title="New Customers" value={newCustomers} color={["#e63946", "#f48c9d"]}  icon={<FaUsers />}/>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <SalesByCategoryChart data={salesByCategory} />

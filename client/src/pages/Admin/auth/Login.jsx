@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { adminLogin } from '../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
 import { MdEmail } from "react-icons/md";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 const Login = ({ onSwitch }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -17,7 +18,7 @@ const Login = ({ onSwitch }) => {
     try {
       setLoading(true);
       const res = await dispatch(adminLogin(data));
-
+  
       if (res.success) {
         Swal.fire({
           title: 'Success!',
@@ -28,7 +29,13 @@ const Login = ({ onSwitch }) => {
           iconColor: '#10b981',
           customClass: {
             title: 'text-2xl font-semibold',
-            confirmButton: 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg',
+            confirmButton: 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-2 px-4 rounded-lg shadow-md transition ease-in-out duration-300',
+          },
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown',
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp',
           },
         });
         navigate('/admin/dashboard');
@@ -43,19 +50,25 @@ const Login = ({ onSwitch }) => {
         iconColor: '#f87171',
         customClass: {
           title: 'text-2xl font-semibold text-red-600',
-          confirmButton: 'bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg',
+          confirmButton: 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-2 px-4 rounded-lg shadow-md transition ease-in-out duration-300',
+        },
+        showClass: {
+          popup: 'animate__animated animate__shakeX',
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp',
         },
       });
     } finally {
       setLoading(false);
     }
   };
-
+  
   const [inputIndex, setInputIndex] = useState(null);
   const focusInput = (index) => {
     setInputIndex(index);
   };
-
+  const [isShowPassword, setIsShowPassword] = useState(false);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-gray-100 p-6 rounded-lg shadow-lg">
       <div className="text-center text-3xl font-bold text-gray-700 mb-6">Login</div>
@@ -76,11 +89,14 @@ const Login = ({ onSwitch }) => {
         <FaLock className="text-gray-400 mr-2" />
         <input
           {...register('password', { required: 'Password is required' })}
-          type="password"
+          type={isShowPassword ? 'text' : 'password'}
           placeholder="Enter Your Password"
           onFocus={() => focusInput(1)}
           className="bg-transparent w-full outline-none text-gray-700"
         />
+        <span onClick={() => setIsShowPassword(!isShowPassword)} className="absolute max-xl:right-13 right-20 sm:right-6 md:right-[16rem] lg:right-[33rem] cursor-pointer text-gray-500">
+          {isShowPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+        </span>
       </div>
       {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
 

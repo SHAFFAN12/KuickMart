@@ -25,8 +25,8 @@ const OrdersByStatusChart = ({ data }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h3 className="text-xl font-semibold mb-4">Orders by Status</h3>
+    <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105">
+      <h3 className="text-2xl font-semibold text-gray-800 mb-4">Orders by Status</h3>
       <Bar data={chartData} />
     </div>
   );
