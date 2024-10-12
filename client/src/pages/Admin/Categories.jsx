@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import React, { useState, useEffect, useRef } from 'react';
+import { FaEdit } from 'react-icons/fa';
+import { FiTrash2 } from 'react-icons/fi';
 import Swal from 'sweetalert2';
 import axiosInstance from '../../adminaxios';
 
@@ -7,10 +8,24 @@ const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [categoryName, setCategoryName] = useState('');
     const [editingCategory, setEditingCategory] = useState(null);
+    const formRef = useRef(null);
 
     useEffect(() => {
         fetchCategories();
-    }, []);
+        
+        // Event listener for clicks outside the form
+        const handleClickOutside = (event) => {
+            if (formRef.current && !formRef.current.contains(event.target) && editingCategory) {
+                setEditingCategory(null); // Clear editing state
+                setCategoryName(''); // Clear input
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [editingCategory]);
 
     const fetchCategories = async () => {
         try {
@@ -59,28 +74,29 @@ const Categories = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
+        <div className="p-6 bg-white rounded-lg shadow-lg transition-transform transform duration-300">
             <h1 className="text-2xl font-bold mb-4 text-gray-800">Categories</h1>
 
             <form
+                ref={formRef}
                 onSubmit={editingCategory ? handleUpdateCategory : handleCreateCategory}
-                className="mb-6 flex items-center space-x-4"
+                className="mb-6 flex items-center space-x-2 border-b pb-4"
             >
                 <input
                     type="text"
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
                     placeholder="Category Name"
-                    className="border border-gray-300 p-2 rounded-lg w-full"
+                    className="border border-gray-300 p-2 rounded-lg w-2/3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     required
                 />
                 <button
                     type="submit"
-                    className={`bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-300 ${
-                        editingCategory ? 'bg-green-500 hover:bg-green-600' : ''
+                    className={`p-2 rounded-lg text-white w-1/3 hover:shadow-lg transition duration-300 ${
+                        editingCategory ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
                     }`}
                 >
-                    {editingCategory ? 'Update Category' : 'Add Category'}
+                    {editingCategory ? 'Update' : 'Add'} Category
                 </button>
             </form>
 
@@ -88,7 +104,7 @@ const Categories = () => {
                 {categories.map((category) => (
                     <li
                         key={category._id}
-                        className="flex items-center justify-between border border-gray-300 p-3 rounded-lg bg-white shadow-sm"
+                        className="flex items-center justify-between border border-gray-300 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition duration-300 shadow-sm"
                     >
                         <span className="text-gray-800">{category.name}</span>
                         <div className="flex space-x-3">
@@ -97,7 +113,8 @@ const Categories = () => {
                                     setCategoryName(category.name);
                                     setEditingCategory(category);
                                 }}
-                                className="text-blue-500 hover:text-blue-700 transition duration-300"
+                                className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition duration-300 p-2 rounded"
+                                title="Edit Category"
                             >
                                 <FaEdit className="text-lg" />
                             </button>
@@ -117,9 +134,10 @@ const Categories = () => {
                                         }
                                     })
                                 }
-                                className="text-red-500 hover:text-red-700 transition duration-300"
+                                className="bg-red-100 text-red-600 hover:bg-red-200 transition duration-300 p-2 rounded"
+                                title="Delete Category"
                             >
-                                <FaTrash className="text-lg" />
+                                <FiTrash2 className="text-lg" />
                             </button>
                         </div>
                     </li>

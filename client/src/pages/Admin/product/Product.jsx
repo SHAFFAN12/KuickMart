@@ -27,16 +27,19 @@ const Product = () => {
         <h1 className="text-2xl font-bold">Products Management</h1>
         <button
           onClick={handleAddProduct}
-          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 flex items-center transition duration-300 transform hover:scale-105"
+          className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 flex items-center transition duration-300 transform hover:scale-105 w-full max-xl:ml-2 max-xl:text-sm sm:w-auto"
         >
           <FaPlusCircle className="mr-2" /> Add New Product
         </button>
+
       </div>
       {isFormVisible && (
-        <ProductForm
-          productId={editingProductId}
-          onClose={handleFormClose}
-        />
+        <div className="mb-6"> {/* Add margin-bottom to create a gap */}
+          <ProductForm
+            productId={editingProductId}
+            onClose={handleFormClose}
+          />
+        </div>
       )}
       <ProductList onEditProduct={handleEditProduct} />
     </div>

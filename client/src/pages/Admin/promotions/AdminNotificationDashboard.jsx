@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaBell, FaEnvelope } from 'react-icons/fa';
+import { GiRingingBell } from "react-icons/gi";
 
 const AdminNotificationDashboard = () => {
   const [message, setMessage] = useState('');
@@ -63,48 +64,56 @@ const AdminNotificationDashboard = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 flex items-center">
-        <FaBell className="mr-2 text-yellow-500" /> Send Notification
-      </h2>
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Message:</label>
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Type:</label>
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="order">Order</option>
-            <option value="promotion">Promotion</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-        <button
-          onClick={handleSendNotification}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Send Notification
-        </button>
-      </form>
-      <div className="mt-6">
-        <button
-          onClick={handleSendPromotion}
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 flex items-center justify-center"
-        >
-          <FaEnvelope className="mr-2" /> Send Promotion
-        </button>
+    <div className="p-6 bg-white rounded-lg shadow-lg max-w-lg mx-auto">
+    <h2 className="text-3xl font-extrabold mb-6 flex items-center text-blue-700">
+      <FaBell className="mr-3 text-yellow-500 text-4xl" /> Send Notification
+    </h2>
+    <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+      <div>
+        <label className="block text-base font-semibold mb-2 text-gray-700">
+          Message:
+        </label>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+          placeholder="Enter your notification message"
+        />
       </div>
+      <div>
+        <label className="block text-base font-semibold mb-2 text-gray-700">
+          Type:
+        </label>
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+        >
+          <option value="order">Order</option>
+          <option value="promotion">Promotion</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button
+  onClick={handleSendNotification}
+  className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center justify-center space-x-2"
+>
+  <GiRingingBell className="text-xl" />
+  <span>Send Notification</span>
+</button>
+
+    </form>
+    <div className="mt-8">
+      <button
+        onClick={handleSendPromotion}
+        className="w-full bg-gradient-to-r from-green-500 to-green-700 text-white py-3 rounded-lg shadow-lg flex items-center justify-center hover:from-green-600 hover:to-green-800 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400"
+      >
+        <FaEnvelope className="mr-2 text-lg" /> Send Promotion
+      </button>
     </div>
+  </div>
+  
   );
 };
 

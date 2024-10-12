@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { getOrders, deleteOrder, updateOrder } from './api'; // Adjust the import path as needed
 import ReactPaginate from 'react-paginate';
+import { IoSearch } from "react-icons/io5";
+import { BsFillCalendar2DateFill } from "react-icons/bs";
+
 
 const MySwal = withReactContent(Swal);
 
@@ -213,38 +216,49 @@ const ManageOrders = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h2 className="text-2xl font-semibold mb-6">Manage Orders</h2>
-      <div className="flex justify-between mb-4">
-        <div className="flex items-center space-x-4">
-          <input
-            type="text"
-            placeholder="Search orders..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="py-2 px-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          />
-          <select
-            value={sortBy}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className="py-2 px-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          >
-            <option value="date">Sort by Date</option>
-            <option value="price">Sort by Price</option>
-          </select>
-          <select
-            value={filterStatus}
-            onChange={(e) => handleFilterChange(e.target.value)}
-            className="py-2 px-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          >
-            <option value="all">Filter: All</option>
-            <option value="delivered">Filter: Delivered</option>
-            <option value="pending">Filter: Pending</option>
-          </select>
-        </div>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 flex items-center">
-          <FaFilter className="mr-2" /> Filter
-        </button>
-      </div>
-      <div className="bg-white shadow-lg rounded-lg overflow-x-auto">
+      <div className="flex flex-col md:flex-row justify-between mb-4">
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+  <div className="relative w-full md:w-auto">
+  <input
+    type="text"
+    placeholder="Search orders..."
+    value={searchTerm}
+    onChange={handleSearchChange}
+    className="py-2 pl-10 pr-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-full"
+  />
+  <IoSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+</div>
+<div className="relative w-full md:w-auto">
+  <BsFillCalendar2DateFill className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+  <select
+    value={sortBy}
+    onChange={(e) => handleSortChange(e.target.value)}
+    className="py-2 pl-10 pr-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-full"
+  >
+    <option value="date">Sort by Date</option>
+    <option value="price">Sort by Price</option>
+  </select>
+</div>
+
+    <select
+      value={filterStatus}
+      onChange={(e) => handleFilterChange(e.target.value)}
+      className="py-2 px-4 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-full md:w-auto"
+    >
+      <option value="all">Filter: All</option>
+      <option value="delivered">Filter: Delivered</option>
+      <option value="pending">Filter: Pending</option>
+    </select>
+  </div>
+  <button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded flex items-center mt-2 md:mt-0 hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105">
+    <FaFilter className="mr-2" /> Filter
+  </button>
+</div>
+
+      
+
+        <div className="lg:w-[1000px]">
+        <div className="bg-white shadow-lg rounded-lg overflow-x-auto">
   <table className="min-w-full divide-y divide-gray-200">
     <thead className="bg-gray-50">
       <tr>
@@ -253,6 +267,7 @@ const ManageOrders = () => {
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Price</th>
+        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNN Number</th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
       </tr>
@@ -272,6 +287,7 @@ const ManageOrders = () => {
           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.user?.name || 'Unknown'}</td>
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.phoneNumber}</td>
           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${order.totalPrice.toFixed(2)}</td>
+          <td className="px-6 py-4 whitespace-nowrap text-sm  text-gray-500">KI09983282</td>
           <td className="px-6 py-4 whitespace-nowrap text-sm">
             {order.isDelivered ? (
               <span className="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs font-medium">Delivered</span>
@@ -279,6 +295,7 @@ const ManageOrders = () => {
               <span className="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs font-medium">Pending</span>
             )}
           </td>
+        
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             <button
               onClick={() => handleSelectOrder(order)}
@@ -293,17 +310,24 @@ const ManageOrders = () => {
   </table>
 </div>
 
-      <ReactPaginate
-        previousLabel={"← Previous"}
-        nextLabel={"Next →"}
-        pageCount={pageCount}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination flex justify-center items-center space-x-4 mt-4"}
-        previousLinkClassName={"bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"}
-        nextLinkClassName={"bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"}
-        disabledClassName={"bg-gray-300 text-gray-500 py-2 px-4 rounded"}
-        activeClassName={"bg-blue-700 text-white py-2 px-4 rounded"}
-      />
+        </div>
+
+
+
+
+
+        <ReactPaginate
+  previousLabel={"← Previous"}
+  nextLabel={"Next →"}
+  pageCount={pageCount}
+  onPageChange={handlePageClick}
+  containerClassName={"pagination flex justify-center items-center space-x-4 mt-4"}
+  previousLinkClassName={"bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"}
+  nextLinkClassName={"bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"}
+  disabledClassName={"opacity-80 cursor-not-allowed"}
+  activeClassName={"bg-gradient-to-r from-blue-500 to-blue-700 text-white py-2 px-4 rounded hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"}
+/>
+
     </div>
   );
 };

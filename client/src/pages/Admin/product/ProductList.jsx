@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../../adminaxios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { FaTrashAlt, FaEdit, FaInfoCircle, FaSearch, FaSortAmountDown, FaMoneyBillAlt, FaBox } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit, FaInfoCircle, FaSearch, FaSortAmountDown, FaMoneyBillAlt, FaBox, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const MySwal = withReactContent(Swal);
 
@@ -10,11 +10,11 @@ const ProductList = ({ onEditProduct }) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
+  const [sortOrder, setSortOrder] = useState('asc');
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(10); // Number of products per page
-  const [totalProducts, setTotalProducts] = useState(0); // Total number of products
+  const [productsPerPage] = useState(10);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,8 +25,8 @@ const ProductList = ({ onEditProduct }) => {
             search: searchTerm,
             sortOrder: sortOrder,
             page: currentPage,
-            limit: productsPerPage
-          }
+            limit: productsPerPage,
+          },
         });
         setProducts(response.data || []);
         setTotalProducts(response.data.length || 0);
@@ -58,74 +58,82 @@ const ProductList = ({ onEditProduct }) => {
     }
   };
 
-  const handleViewDetails = (product) => {
-    const youtubeEmbedUrl = product.video_url
-    ? product.video_url.replace(/https:\/\/www\.youtube\.com\/(watch\?v=|shorts\/)/, 'https://www.youtube.com/embed/')
-    : '';
-        const videoEmbedUrl = product.video || '';
 
+  const handleViewDetails = (product) => {
     MySwal.fire({
-      title: <strong>{product.name}</strong>,
       html: (
-        <div>
-          <p><strong>Description:</strong> {product.description}</p>
-          <p><strong>Price:</strong> {product.price}</p>
-          <p><strong>Stock</strong> {product.stock}</p>
-          <p><strong>Category:</strong> {categories.find(cat => cat._id === product.category._id)?.name}</p>
-          <p><strong>Colors:</strong> {product.colors.join(', ')}</p>
-          {youtubeEmbedUrl && (
-            <div className="mb-4">
-              <strong>Video (YouTube):</strong>
-              <iframe
-                width="100%"
-                height="315"
-                src={youtubeEmbedUrl}
-                title={`${product.name} YouTube`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="mt-2"
-              />
+        <div className="p-8 bg-gray-50 rounded-lg shadow-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="w-full h-auto rounded-lg overflow-hidden">
+              <ImageCarousel images={product.images} />
             </div>
-          )}
-          {videoEmbedUrl && (
-            <div className="mb-4">
-              <strong>Video (Direct Link):</strong>
-              <video
-                width="100%"
-                height="315"
-                controls
-                className="mt-2"
-              >
-                <source src={videoEmbedUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+      
+            <div className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+              <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
+      
+              <div className='pt-4 space-y-3'>
+                <p className="text-gray-800 text-xl flex items-start">
+                  <strong className="text-lg">Price:</strong>
+                  <span className='ml-2 text-red-500 text-xl'>Rs {product.price.toFixed(2)}</span>
+                </p>
+      
+                <div className="text-gray-700">
+                  <p className='text-xl flex items-start'>
+                    <strong className="text-lg">Category:</strong>
+                    <span className='ml-2'>{categories.find(cat => cat._id === product.category._id)?.name}</span>
+                  </p>
+                </div>
+      
+                <div className="flex space-x-4 items-center">
+                  <p className="text-xl">
+                    <strong className="text-lg">Stock:</strong>
+                    <span className='ml-2'>{product.stock}</span>
+                  </p>
+                </div>
+      
+                {/* Display Colors Visually */}
+                <div className='flex items-start'>
+                  <strong className='mr-2 text-lg'>Colors:</strong>
+                  {product.colors.join(', ')}
+                </div>
+              </div>
             </div>
-          )}
-          <div>
-            <strong>Images:</strong>
-            <div className="flex space-x-2 mt-2">
-              {product.images.map((img, idx) => (
-                <img key={idx} src={img} alt="Product" className="h-20 w-20 object-cover rounded-md" />
-              ))}
-            </div>
+          </div>
+      
+          {/* Product Description */}
+          <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h1 className="text-xl font-bold">Product Details</h1>
+            <p className="text-gray-600 mt-2 text-left">
+              {product.description}
+            </p>
           </div>
         </div>
       ),
+      
       showCancelButton: true,
       showConfirmButton: false,
       cancelButtonText: 'Close',
+      customClass: {
+        popup: 'bg-white w-full rounded-xl shadow-xl max-w-4xl mx-auto transition-transform transform-gpu',
+        title: 'font-semibold text-center mb-6',
+        html: 'text-gray-800',
+        cancelButton: 'bg-gray-300 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-400 transition-all duration-300',
+        footer: 'flex justify-around mt-6',
+      },
       footer: (
         <div className="flex space-x-4">
+          {/* Edit Button */}
           <button
             onClick={() => {
               onEditProduct(product._id);
               MySwal.close();
             }}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+            className="flex items-center bg-blue-700 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-800 transition duration-300"
           >
             <FaEdit className="mr-2" /> Edit
           </button>
+  
+          {/* Delete Button */}
           <button
             onClick={() => {
               MySwal.fire({
@@ -135,56 +143,80 @@ const ProductList = ({ onEditProduct }) => {
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, delete it!',
               }).then((result) => {
                 if (result.isConfirmed) {
                   handleDelete(product._id);
                 }
               });
             }}
-            className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition"
+            className="flex items-center bg-red-700 text-white py-2 px-6 rounded-lg shadow-md hover:bg-red-800 transition duration-300"
           >
             <FaTrashAlt className="mr-2" /> Delete
           </button>
         </div>
-      )
+      ),
     });
+  };
+
+  const ImageCarousel = ({ images }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextImage = () => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    };
+
+    const prevImage = () => {
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    };
+
+    return (
+      <div className="relative group">
+        <img src={images[currentIndex]} alt="Product" className="w-full h-50 object-cover rounded-md mb-2" />
+
+        <button
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:opacity-100"
+          onClick={prevImage}
+        >
+          <FaChevronLeft />
+        </button>
+
+        <button
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:opacity-100"
+          onClick={nextImage}
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+    );
   };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1); // Reset to the first page on search
+    setCurrentPage(1);
   };
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-    setCurrentPage(1); // Reset to the first page on category change
+    setCurrentPage(1);
   };
 
   const handleSortOrderChange = () => {
-    setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc');
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
   const handlePageChange = (page) => {
-    setCurrentPage(prevPage => Math.max(1, Math.min(page, totalPages)));
+    setCurrentPage((prevPage) => Math.max(1, Math.min(page, totalPages)));
   };
-  
-  // Apply sorting and filtering to all products before pagination
+
   const sortedAndFilteredProducts = products
-  .filter(product => selectedCategory === 'All' || product.category._id === selectedCategory)
+    .filter(product => selectedCategory === 'All' || product.category._id === selectedCategory)
     .filter(product =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return new Date(a.createdAt) - new Date(b.createdAt);
-      } else {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }
-    });
-
-    const totalPages = Math.ceil(totalProducts / productsPerPage);
+    .sort((a, b) => (sortOrder === 'asc' ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt)));
 
   const paginatedProducts = sortedAndFilteredProducts.slice(
     (currentPage - 1) * productsPerPage,
@@ -192,29 +224,24 @@ const ProductList = ({ onEditProduct }) => {
   );
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold mb-4">Product List</h1>
-      <div className="flex items-center mb-4 space-x-2">
-        <p className="text-lg font-semibold text-gray-800">
-          Total Products: <span className="text-blue-600">{totalProducts}</span>
-        </p>
-      </div>
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0">
-        <div className="flex items-center space-x-2">
+    <div className="p-6 bg-gray-50 rounded-lg shadow-lg transition-shadow duration-1000">
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-800">Product List</h1>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
+        <div className="flex items-center w-full md:w-auto space-x-2">
           <input
             type="text"
             placeholder="Search by name or description..."
             value={searchTerm}
             onChange={handleSearch}
-            className="border p-2 rounded w-full md:w-80"
+            className="border p-3 rounded-lg w-full md:w-80 focus:ring-2 focus:ring-blue-500"
           />
           <FaSearch className="text-gray-500" />
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 w-full md:w-auto">
           <select
             value={selectedCategory}
             onChange={handleCategoryChange}
-            className="border p-2 rounded"
+            className="border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
           >
             <option value="All">All Categories</option>
             {categories.map(category => (
@@ -223,66 +250,54 @@ const ProductList = ({ onEditProduct }) => {
           </select>
           <button
             onClick={handleSortOrderChange}
-            className="bg-gray-200 p-2 rounded hover:bg-gray-300 transition"
-            >
+            className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-2 rounded-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105"
+          >
             <FaSortAmountDown className={`text-lg ${sortOrder === 'desc' ? 'rotate-180' : ''}`} />
           </button>
         </div>
       </div>
+
       <ul className="space-y-4">
         {paginatedProducts.length > 0 ? (
           paginatedProducts.map((product) => (
-            <li key={product._id} className="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4 hover:shadow-xl transition-shadow">
-              <div className="flex-shrink-0 w-32 h-32 bg-gray-200 rounded-lg overflow-hidden">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <li key={product._id} className="bg-white p-6 rounded-lg shadow-md flex flex-col md:flex-row items-start space-x-4 transition-transform transform hover:scale-105 hover:shadow-lg">
+              <img
+                src={product.images[0]}
+                alt={product.name}
+                className="h-32 w-32 object-cover rounded-lg shadow-sm"
+              />
               <div className="flex-1">
-                <h2 className="text-2xl font-semibold mb-2">{product.name}</h2>
-                <h2 className="text-2xl font-semibold mb-2 flex  items-center "><FaMoneyBillAlt size={35} className='  text-green-400 m-2 '/>{product.price}</h2>
-                <p className="text-gray-700 mb-2 line-clamp-3">{product.description}</p>
-                <p className="text-gray-600">
-                  Category: {categories.find(category => category._id === product.category._id)?.name || 'Unknown'}
-                </p>
+                <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
+                <p className="text-gray-600">{product.description}</p>
+                <p className="text-lg font-bold text-blue-600">₨ {product.price.toFixed(2)}</p>
+                <p className="text-sm text-gray-500">Stock: {product.stock}</p>
               </div>
-              <div className="flex-shrink-0">
-                <button
-                  onClick={() => handleViewDetails(product)}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-lg flex items-center space-x-2 hover:bg-blue-600 transition-colors"
-                >
-                  <FaInfoCircle className="text-xl" />
-                  <span>Details</span>
-
-                </button>
-                <div className="  flex items-center space-x-2 text-gray-700">
-      <FaBox className="text-xl text-green-500" />
-      <span className="m-2">
-        Stock: {product.stock}
-      </span>
-    </div>              </div>
+              <button
+                onClick={() => handleViewDetails(product)}
+                className="px-4 py-2  bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105 mt-4 md:mt-0"
+              >
+                <FaInfoCircle />
+              </button>
             </li>
-          ))) : (
-          <p>No products found.</p>
+          ))
+        ) : (
+          <li className="text-gray-500">No products found.</li>
         )}
       </ul>
-      <div className="mt-6 flex justify-between items-center">
+
+      <div className="flex justify-center mt-6 space-x-2">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded disabled:opacity-50"
+          className={`px-4 py-2 rounded-l-lg transition-all ${currentPage === 1 ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
         >
-          Previous
+          Prev
         </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
+        <span className="px-4 py-2 border-t border-b">{currentPage} / {totalPages}</span>
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded disabled:opacity-50"
+          className={`px-4 py-2 rounded-r-lg transition-all ${currentPage === totalPages ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
         >
           Next
         </button>

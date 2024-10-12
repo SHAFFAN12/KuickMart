@@ -34,7 +34,7 @@ const DashboardCard = ({ title, value, isCurrency, color, grow, icon }) => {
         <div className="flex-grow">
           <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
           <p className={`text-2xl font-bold ${isCurrency ? 'text-white' : 'text-white'}`}>
-      {isCurrency ? `$${value.toFixed(2)}` : value}
+      {isCurrency ? `Rs ${value.toFixed(2)}` : value}
     </p>
         </div>
 

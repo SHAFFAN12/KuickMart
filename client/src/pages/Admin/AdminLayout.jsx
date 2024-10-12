@@ -103,25 +103,18 @@ const AdminLayout = () => {
   );
 };
 
-const AdminSidebar = ({ isOpen, onClose, onLogout }) => {
-  const location = useLocation(); // Current URL
 
-  // Determine activeTab based on URL
-  const activeTab = () => {
-    if (location.pathname === '/admin/dashboard') return 0;
-    if (location.pathname === '/admin/users') return 1;
-    if (location.pathname === '/admin/products') return 2;
-    if (location.pathname === '/admin/categories') return 3;
-    if (location.pathname === '/admin/orders') return 4;
-    if (location.pathname === '/admin/promotions') return 5;
-    if (location.pathname === '/admin/rewards') return 6;
-    return -1; // Default for non-matching routes
-  };
+
+const AdminSidebar = ({ isOpen, onClose, onLogout }) => {
+  const location = useLocation();
+
+  // Function to determine the active class based on the path
+  const isActiveTab = (path) => location.pathname === path;
 
   return (
     <aside
       className={`fixed inset-y-0 left-0 bg-white text-[#5e5d72] h-full w-full lg:w-64 lg:static lg:block lg:relative transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
-      style={{ zIndex: 1000 }}
+      style={{ zIndex: 1000 }} // Ensure it stays above other elements
     >
       <button
         className="lg:hidden p-2 text-black hover:text-blue-700 absolute top-0 right-0"
@@ -131,32 +124,133 @@ const AdminSidebar = ({ isOpen, onClose, onLogout }) => {
       </button>
       <nav className="p-4">
         <ul>
+          {/* Dashboard */}
           <li className="py-2">
             <Link to="/admin/dashboard" onClick={onClose}>
               <button
                 className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
-                ${activeTab() === 0 ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+                ${isActiveTab('/admin/dashboard') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
               >
                 <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
-                  <RiDashboardFill className={`${activeTab() === 0 ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                  <RiDashboardFill className={`${isActiveTab('/admin/dashboard') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
                 </span>
                 Dashboard
               </button>
             </Link>
           </li>
 
-          {/* Similar code for Users, Products, Categories, etc. */}
+          {/* Users */}
+          <li className="py-2">
+            <Link to="/admin/users" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/users') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <FaUsers className={`${isActiveTab('/admin/users') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Users
+              </button>
+            </Link>
+          </li>
+
+          {/* Products */}
+          <li className="py-2">
+            <Link to="/admin/products" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/products') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <AiFillProduct className={`${isActiveTab('/admin/products') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Products
+              </button>
+            </Link>
+          </li>
+
+          {/* Categories */}
+          <li className="py-2">
+            <Link to="/admin/categories" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/categories') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <FaTags className={`${isActiveTab('/admin/categories') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Categories
+              </button>
+            </Link>
+          </li>
+
+          {/* Orders */}
+          <li className="py-2">
+            <Link to="/admin/orders" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/orders') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <HiShoppingBag className={`${isActiveTab('/admin/orders') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Orders
+              </button>
+            </Link>
+          </li>
+
+          {/* Promotions */}
+          <li className="py-2">
+            <Link to="/admin/promotions" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/promotions') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <FaGift className={`${isActiveTab('/admin/promotions') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Promotions
+              </button>
+            </Link>
+          </li>
+
+          {/* Rewards */}
+          <li className="py-2">
+            <Link to="/admin/rewards" onClick={onClose}>
+              <button
+                className={`w-full text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans 
+                ${isActiveTab('/admin/rewards') ? 'bg-[#f1f1f1] text-[#0858f7]' : 'text-[#5e5d72]'} hover:bg-[#f1f1f1]`}
+              >
+                <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                  <FaGifts className={`${isActiveTab('/admin/rewards') ? 'text-[#0858f7]' : 'text-[#5e5d72]'} text-[22px]`} />
+                </span>
+                Rewards
+              </button>
+            </Link>
+          </li>
+
+          {/* Logout */}
+          <li className="py-2">
+            <button
+              className="w-full text-red-500 text-left text-xl justify-start rounded-lg py-3 px-4 flex items-center capitalize font-bold text-[15px] font-open-sans hover:bg-[#f1f1f1]"
+              onClick={onLogout}
+            >
+              <span className="flex items-center justify-center w-[25px] h-[25px] mr-2">
+                <FaSignOutAlt className='text-[22px]' />
+              </span>
+              Logout
+            </button>
+          </li>
         </ul>
       </nav>
     </aside>
   );
 };
 
-export default AdminSidebar;
 
 const AdminHeader = ({ onToggleSidebar, adminName, adminEmail }) => {
   return (
-    <header className="admin-header bg-blue-600 text-white py-4 px-6 flex items-center justify-between shadow-md rounded-b-lg">
+    <header className="admin-header overflow-hidden bg-blue-600 text-white py-4 px-6 flex items-center justify-between shadow-md rounded-b-lg">
       <div className="flex items-center">
         <button className="text-white lg:hidden mr-4 hover:text-blue-200 transition duration-300" onClick={onToggleSidebar}>
           <FaBars className="lg:text-2xl text-xl" />

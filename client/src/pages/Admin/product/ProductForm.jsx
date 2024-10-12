@@ -137,7 +137,7 @@ const ProductForm = ({ productId, onClose }) => {
       }
       onClose();
     } catch (error) {
-      Swal.fire('Error', 'Failed to save product', 'error');
+      Swal.fire('Error', 'Failed to add product', 'error');
     } finally {
       setLoading(false);
     }
@@ -146,12 +146,12 @@ const ProductForm = ({ productId, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg space-y-6 sm:space-y-8"
+      className="p-6 max-w-xl mx-auto bg-white rounded-lg shadow-lg space-y-6 sm:space-y-8 overflow-hidden"
     >
       <div className="relative">
         <button
           onClick={onClose}
-          className="absolute top-1 right-4 text-red-500 hover:text-red-600 transition-colors"
+          className="absolute top-1 right-0 text-red-500 hover:text-red-600 transition-colors"
         >
           <MdClose className="text-2xl" />
         </button>
@@ -167,7 +167,7 @@ const ProductForm = ({ productId, onClose }) => {
           onChange={(e) => setName(e.target.value)}
           className="border p-3 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <div className='grid grid-cols-2 gap-4'>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="number"
             placeholder="Price"
@@ -204,52 +204,57 @@ const ProductForm = ({ productId, onClose }) => {
           ))}
         </select>
 
-        <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <button
-              type="button"
-              onClick={() => setShowColorPicker(!showColorPicker)}
-              className="border p-3 flex-1 rounded-md shadow-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
-            >
-              <MdColorLens className="inline-block mr-2" /> Select Color
-            </button>
-            {showColorPicker && (
-              <div className="relative z-10" ref={colorPickerRef}>
-                <ChromePicker
-                  color={newColor}
-                  onChangeComplete={(color) => setNewColor(color.hex)}
-                />
-              </div>
-            )}
-            <button
-              type="button"
-              onClick={handleAddColor}
-              className="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
-            >
-              <FaPlus />
-            </button>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {colors.map((color, index) => (
-              <div key={index} className="relative">
-                <div
-                  className="w-10 h-10 rounded-full shadow-md"
-                  style={{ backgroundColor: color }}
-                ></div>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveColor(color)}
-                  className="absolute top-0 right-0 p-1 text-white bg-red-500 rounded-full text-xs hover:bg-red-600 transition-colors"
-                >
-                  <MdClear />
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div className="space-y-4 relative">
+  <div className="flex items-center space-x-2">
+    <button
+      type="button"
+      onClick={() => setShowColorPicker(!showColorPicker)}
+      className="border p-3 flex-1 rounded-md shadow-sm text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+    >
+      <MdColorLens className="inline-block mr-2" /> Select Color
+    </button>
+    <button
+      type="button"
+      onClick={handleAddColor}
+      className="bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
+    >
+      <FaPlus />
+    </button>
+  </div>
+
+  {showColorPicker && (
+    <div
+      ref={colorPickerRef}
+      className="absolute z-10 mt-2" // Ensures the picker is below the button
+    >
+      <ChromePicker
+        color={newColor}
+        onChangeComplete={(color) => setNewColor(color.hex)}
+      />
+    </div>
+  )}
+
+  <div className="grid grid-cols-3 gap-2">
+    {colors.map((color, index) => (
+      <div key={index} className="relative">
+        <div
+          className="w-8 h-8 rounded-full shadow-md"
+          style={{ backgroundColor: color }}
+        ></div>
+        <button
+          type="button"
+          onClick={() => handleRemoveColor(color)}
+          className="absolute top-0 right-0 p-1 text-white bg-red-500 rounded-full text-xs hover:bg-red-600 transition-colors"
+        >
+          <MdClear />
+        </button>
+      </div>
+    ))}
+  </div>
+</div>
+
 
         <div className="space-y-6 p-6 bg-white rounded-lg shadow-lg">
-          {/* YouTube Video URL Input */}
           <label className="flex items-center cursor-pointer space-x-3">
             <FaYoutube className="text-red-500 text-2xl" />
             <input
@@ -261,23 +266,22 @@ const ProductForm = ({ productId, onClose }) => {
             />
           </label>
 
-          {/* File Upload for Image and Video */}
           <div className="flex flex-col space-y-4">
             <label className="cursor-pointer">
-              <input type="file" multiple onChange={handleImageChange} hidden />
+              <input type="file" multiple accept='image/*' onChange={handleImageChange} hidden />
               <div className="border-2 border-dashed border-gray-300 p-4 text-center rounded-lg">
                 <FaUpload className="text-gray-500 text-2xl mx-auto" />
                 <p className="text-gray-500">Click to upload images</p>
               </div>
             </label>
 
-            {/* Preview Images with Remove Option */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="max-h-64 overflow-y-auto grid grid-cols-2 sm:grid-cols-4 gap-2 scrollbar-custom">
               {images.map((image, index) => (
-                <div key={index} className="relative">
+                <div  className="relative">
                   <img
+                    key={index}
                     src={URL.createObjectURL(image)}
-                    alt="Preview"
+                    alt={`preview-${index}`}
                     className="w-full h-24 object-cover rounded-lg shadow-md"
                   />
                   <button
@@ -291,7 +295,6 @@ const ProductForm = ({ productId, onClose }) => {
               ))}
             </div>
 
-            {/* Video Upload */}
             <label className="cursor-pointer">
               <input type="file" onChange={handleVideoChange} hidden />
               <div className="border-2 border-dashed border-gray-300 p-4 text-center rounded-lg">
@@ -300,7 +303,6 @@ const ProductForm = ({ productId, onClose }) => {
               </div>
             </label>
 
-            {/* Video Preview with Remove Option */}
             {video && (
               <div className="relative w-full">
                 <video
@@ -323,9 +325,9 @@ const ProductForm = ({ productId, onClose }) => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white w-full py-3 rounded-md hover:bg-blue-600 transition-colors"
+          className={`w-full py-3 ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-blue-500 to-blue-700'} text-white font-bold rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-800 transition duration-300 transform hover:scale-105`}
         >
-          {loading ? 'Saving...' : 'Save Product'}
+          {loading ? 'Adding...' : 'Add Product'}
         </button>
       </div>
     </form>
@@ -333,3 +335,4 @@ const ProductForm = ({ productId, onClose }) => {
 };
 
 export default ProductForm;
+

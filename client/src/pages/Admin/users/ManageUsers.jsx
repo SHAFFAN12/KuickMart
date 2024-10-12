@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { getAllUsers, deleteUser } from './api';
 import 'tailwindcss/tailwind.css';
-import { FaInfoCircle, FaTrash } from 'react-icons/fa';
-
+import { FaInfoCircle, FaUser } from 'react-icons/fa';
+import {  FiTrash2 } from 'react-icons/fi';
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,23 +59,28 @@ const ManageUsers = () => {
 
   const handleViewDetails = (user) => {
     Swal.fire({
-      title: `User Details`,
+      title: `<h2 class="text-2xl font-bold text-blue-600">User Details</h2>`,
       html: `
-        <div class="text-left">
-          <p class="font-semibold"><strong>Name:</strong> ${user.name}</p>
-          <p class="font-semibold"><strong>Email:</strong> ${user.email}</p>
-          <p class="font-semibold"><strong>Role:</strong> ${user.isAdmin ? 'Admin' : 'Customer'}</p>
-          <p class="font-semibold"><strong>Google ID:</strong> ${user.googleId}</p>
-          <p class="font-semibold"><strong>Created At:</strong> ${new Date(user.createdAt).toLocaleString()}</p>
-          <p class="font-semibold"><strong>Updated At:</strong> ${new Date(user.updatedAt).toLocaleString()}</p>
+        <div class="text-left space-y-4">
+          <div class="flex items-center space-x-2">
+            <i class="fa fa-user-circle text-4xl text-blue-500"></i>
+            <h3 class="text-xl font-semibold">${user.name}</h3>
+          </div>
+          <div class="border-t pt-4 space-y-2">
+            <p class="font-medium"><strong>Email:</strong> ${user.email}</p>
+            <p class="font-medium"><strong>Role:</strong> ${user.isAdmin ? 'Admin' : 'Customer'}</p>
+            <p class="font-medium"><strong>Google ID:</strong> ${user.googleId}</p>
+            <p class="font-medium"><strong>Created At:</strong> ${new Date(user.createdAt).toLocaleString()}</p>
+            <p class="font-medium"><strong>Updated At:</strong> ${new Date(user.updatedAt).toLocaleString()}</p>
+          </div>
         </div>
       `,
       icon: 'info',
       confirmButtonText: 'Close',
       customClass: {
-        popup: 'bg-white shadow-lg rounded-lg p-6',
+        popup: 'bg-white shadow-xl rounded-lg p-8 max-w-lg',
         title: 'text-xl font-bold text-gray-800 mb-4',
-        htmlContainer: 'text-gray-700',
+        htmlContainer: 'text-gray-700 text-base',
         confirmButton: 'bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-300'
       }
     });
@@ -106,17 +111,17 @@ const ManageUsers = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button
                       onClick={() => handleViewDetails(user)}
-                      className="text-blue-600 hover:text-blue-900 mr-4 transition duration-300"
+                      className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition duration-300 mr-4 p-2 rounded"
                       aria-label="View Details"
                     >
                       <FaInfoCircle />
                     </button>
                     <button
                       onClick={() => handleDelete(user._id)}
-                      className="text-red-600 hover:text-red-900 transition duration-300"
+                      className="bg-red-100 text-red-600 hover:bg-red-200 transition duration-300 p-2 rounded"
                       aria-label="Delete User"
                     >
-                      <FaTrash />
+                      <FiTrash2 />
                     </button>
                   </td>
                 </tr>

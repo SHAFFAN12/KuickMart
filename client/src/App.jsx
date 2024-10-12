@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import store from './pages/Public/redux/store';
 import Layout from './pages/Layout';
+import Layout2 from './pages/Layout2';
 import Home from './pages/Home';
 import NoPage from './pages/NoPage';
 import ProductDetails from './pages/Public/ProductDetail';
@@ -36,6 +37,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
+            {/* <Route path="/" element={<Layout2 />}> */}
               <Route index element={<PublicRoute element={<Home />} />} />
               <Route path="/product-details/:productId" element={<ProductDetails />} />
               <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />

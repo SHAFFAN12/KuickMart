@@ -201,21 +201,24 @@ const Register = ({ onSwitch }) => {
       </div>
       {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
 
-      <div className={`flex items-center bg-gray-100 rounded-full px-4 py-3 relative ${inputIndex === 2 && 'ring-2 ring-blue-400'}`}>
-        <IoIosLock className="text-gray-400 mr-2" />
-        <input
-          {...register('password', { required: 'Password is required' })}
-          type={isShowPassword ? 'text' : 'password'}
-          placeholder="Password"
-          onFocus={() => focusInput(2)}
-          onBlur={hidePasswordHints}
-          className="bg-transparent w-full outline-none text-gray-700"
-          autoComplete="current-password"
-        />
-        <span onClick={() => setIsShowPassword(!isShowPassword)} className="absolute right-4  cursor-pointer text-gray-500">
-          {isShowPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-        </span>
-      </div>
+      <div className={`flex items-center bg-gray-100 rounded-full px-4 py-3 ${inputIndex === 2 && 'ring-2 ring-blue-400'}`}>
+  <IoIosLock className="text-gray-400 mr-2" />
+  <input
+    {...register('password', { required: 'Password is required' })}
+    type={isShowPassword ? 'text' : 'password'}
+    placeholder="Password"
+    onFocus={() => focusInput(2)}
+    onBlur={hidePasswordHints}
+    className="bg-transparent w-full outline-none text-gray-700"
+    autoComplete="current-password"
+  />
+  <span 
+    onClick={() => setIsShowPassword(!isShowPassword)} 
+    className="cursor-pointer text-gray-500"
+  >
+    {isShowPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+  </span>
+</div>
       {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
 
       {/* Password validation box that shows up when the password field is focused */}
