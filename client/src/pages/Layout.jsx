@@ -11,6 +11,8 @@ import { IoMdSearch } from 'react-icons/io';
 import { IoMenu } from 'react-icons/io5';
 import { FaShoppingCart, FaSignOutAlt, FaHistory, FaTrophy, FaAngleDown } from 'react-icons/fa';
 import GoogleLogin from './Public/GoogleLogin';
+import { FaRegUser } from "react-icons/fa6";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,9 +24,14 @@ const Layout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const menuRef = useRef(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+  const toggleUserMenu = () => {
+    setUserMenuOpen(!userMenuOpen);
   };
 
   const handleSearch = (e) => {
@@ -63,8 +70,10 @@ const Layout = () => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setMenuOpen(false);
     }
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setUserMenuOpen(false);
+    }
   };
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -102,7 +111,35 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <header className="bg-white sticky top-0 z-50">
+      {/* Upper Header for Mobile */}
+      <header className="bg-white sticky top-0 z-50 lg:hidden md:hidden">
+        <div className="flex flex-col items-center px-4 py-3">
+          {/* Centered Logo */}
+          <div className="flex">
+          <img src={logo} alt="Logo" className="h-auto w-[150px] " />
+          {!user && (
+            <div className="flex items-center space-x-4 ml-2 text-sm">
+              <GoogleLogin />
+            </div>
+          )}
+          </div>
+          {/* Search box below logo */}
+          <div className="flex items-center bg-gray-100 p-2 rounded-full shadow-md mt-2 w-full max-w-xs">
+            <IoMdSearch className="w-5 h-5 text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search for products..."
+              className="bg-transparent focus:outline-none flex-1 px-2 text-gray-700"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={handleSearch}
+            />
+          </div>
+        </div>
+      </header>
+
+      {/* Main Header for Desktop */}
+      <header className="max-md:hidden overflow-hidden bg-white sticky top-0 z-50">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo on the left */}
           <img src={logo} alt="Logo" className="h-auto w-[150px]" />
@@ -120,21 +157,102 @@ const Layout = () => {
                 onKeyPress={handleSearch}
               />
             </div>
-
-            {/* User info on the right side of the search box after login */}
-            {user && (
-              <div className="flex relative left-[8rem] items-center ml-4">
-                <img
-                  src={user.image}
-                  alt="User"
-                  className="w-10 h-10 rounded-full mr-2 shadow-md"
-                />
-                <span className="text-lg font-semibold text-gray-800">
-                  {user.name}
-                </span>
-              </div>
-            )}
           </div>
+
+          {/* User info on the right side after login */}
+          {user && (
+            <div className="relative flex items-center ml-4 space-x-2">
+              {/* User button */}
+              <button
+                onClick={toggleUserMenu}
+                className="bg-white w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center p-2 text-xl transition-all duration-300 transform hover:bg-blue-500 hover:border-blue-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <FaRegUser className="text-gray-700 transition-colors duration-300" />
+
+
+              </button>
+
+
+              {/* User dropdown menu */}
+              {userMenuOpen && (
+                <div
+                  ref={userMenuRef}
+                  className="absolute right-0 top-14 w-56 bg-white border border-gray-200 rounded-lg shadow-lg"
+                >
+                  <ul className="p-4 space-y-2">
+                    {/* User Info */}
+                    <li className="flex items-center space-x-3 p-2 bg-gray-50 rounded-md shadow-sm">
+                      <img
+                        src={user.image}
+                        alt="User"
+                        className="w-12 h-12 rounded-full shadow-md"
+                      />
+                      <div>
+                        <p className="text-base font-bold text-gray-800">{user.name}</p>
+                        <span className="text-sm text-gray-500">Member</span>
+                      </div>
+                    </li>
+
+                    <hr className="border-t border-gray-300" />
+
+                    {/* Rewards Points */}
+                    <li className="flex items-center justify-between p-2 rounded-md hover:bg-gray-50">
+                      <div className="flex items-center space-x-2">
+                        <FaTrophy className="text-yellow-500" />
+                        <span className="text-sm font-semibold text-gray-700">Points</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-800">
+                        {rewardsPoints !== null ? rewardsPoints : '0'}
+                      </span>
+                    </li>
+
+                    {/* Order History */}
+                    <li>
+                      <Link
+                        to="/order-history"
+                        className="flex items-center p-2 rounded-md hover:bg-gray-50"
+                      >
+                        <FaHistory className="mr-2 text-gray-600" />
+                        <span className="text-sm font-medium text-gray-700">
+                          Order History
+                        </span>
+                      </Link>
+                    </li>
+
+                    {/* Logout Option */}
+                    <li
+                      className="flex items-center p-2 text-red-600 rounded-md hover:bg-red-50 cursor-pointer"
+                      onClick={handleLogout}
+                    >
+                      <FaSignOutAlt className="mr-2" />
+                      <span className="text-sm font-medium">Logout</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
+
+
+
+              {/* Shopping bag button */}
+              <div className="relative">
+                <Link to='/cart'>
+                  <button className="bg-white w-12 h-12 border-2 border-gray-300 rounded-full p-2 text-xl transition-all duration-300 transform hover:bg-blue-500 hover:border-blue-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center">
+                    <HiOutlineShoppingBag className="text-gray-700 transition-colors duration-300 hover:text-white" />
+                  </button>
+                </Link>
+
+                {/* Cart length badge */}
+                {cart.length > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cart.length}
+                  </span>
+                )}
+              </div>
+
+
+
+            </div>
+          )}
 
           {/* Google login button on the right (visible if not logged in) */}
           {!user && (
@@ -176,77 +294,46 @@ const Layout = () => {
 
           {/* Links aligned to the right */}
           <div className="flex items-center space-x-6">
-            {user ? (
-              <>
-                <div className="flex items-center">
-                  <FaTrophy className="text-yellow-500 mr-2" />
-                  <span className="text-lg font-semibold text-gray-800">
-                    Points: {rewardsPoints !== null ? rewardsPoints : '0'}
-                  </span>
-                </div>
 
-                <Link
-                  to="/order-history"
-                  className="text-[14px] font-semibold text-gray-700 uppercase px-[15px] py-[8px] transition hover:bg-gray-100 rounded-md flex items-center"
-                >
-                  <FaHistory className="mr-2" />
-                  Order History
-                </Link>
-
-                <Link
-                  to="/cart"
-                  className="text-[14px] font-semibold text-gray-700 uppercase px-[15px] py-[8px] transition hover:bg-gray-100 rounded-md flex items-center"
-                >
-                  <FaShoppingCart className="mr-2" />
-                  Cart ({cart.length})
-                </Link>
-
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center px-4 py-2 text-red-500 hover:bg-gray-100 transition rounded-md"
-                >
-                  <FaSignOutAlt className="mr-2" />
-                  Logout
-                </button>
-              </>
-            ) : (
-              <div className="flex space-x-6">
-                <Link
-                  to="/"
-                  className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
-                >
-                  Home
-                </Link>
-                <Link
-                  to="/about"
-                  className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
-                >
-                  About Us
-                </Link>
-                <Link
-                  to="/products"
-                  className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
-                >
-                  Products
-                </Link>
-                <Link
-                  to="/terms"
-                  className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
-                >
-                  Terms & Conditions
-                </Link>
-              </div>
-            )}
+            <div className="flex space-x-6">
+              <Link
+                to="/"
+                className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
+              >
+                Home
+              </Link>
+              <Link
+                to="/about"
+                className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
+              >
+                About Us
+              </Link>
+              <Link
+                to="/products"
+                className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
+              >
+                Products
+              </Link>
+              <Link
+                to="/terms"
+                className="text-[14px] font-semibold text-[rgba(0,0,0,0.7)] uppercase px-[15px] py-[8px] transition hover:bg-[#F6FAFD]"
+              >
+                Terms & Conditions
+              </Link>
+            </div>
           </div>
         </nav>
-        <hr className="mt-2 mb-1"/>
+        <hr className="mt-2 mb-1" />
       </header>
 
+      {/* Main Content */}
       <main className="flex-1">
         <Outlet />
       </main>
 
-      <BottomNavbar />      
+      {/* Bottom Navigation Bar */}
+      <BottomNavbar />
+
       <Footer />
     </div>
   );
