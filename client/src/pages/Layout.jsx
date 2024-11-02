@@ -13,6 +13,7 @@ import { FaShoppingCart, FaSignOutAlt, FaHistory, FaTrophy, FaAngleDown } from '
 import GoogleLogin from './Public/GoogleLogin';
 import { FaRegUser } from "react-icons/fa6";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import CatSidebar from './CatSidebar';
 
 const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -167,7 +168,7 @@ const Layout = () => {
                 onClick={toggleUserMenu}
                 className="bg-white w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center p-2 text-xl transition-all duration-300 transform hover:bg-blue-500 hover:border-blue-500 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
-                <FaRegUser className="text-gray-700 transition-colors duration-300" />
+                <FaRegUser className="text-gray-700 transition-colors duration-300 hover:text-white" />
 
 
               </button>
@@ -333,7 +334,7 @@ const Layout = () => {
 
       {/* Bottom Navigation Bar */}
       <BottomNavbar />
-
+      
       <Footer />
     </div>
   );
