@@ -8,7 +8,7 @@ import { LuLayoutGrid } from "react-icons/lu";
 import { IoHomeOutline } from "react-icons/io5";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
-import CatSidebar from './CatSidebar';
+// import CatSidebar from './CatSidebar';
 
 const BottomNavbar = () => {
   const navigate = useNavigate();
@@ -32,11 +32,9 @@ const BottomNavbar = () => {
       }
     });
   };
-
   if (!user) {
     return null; // Don't render the BottomNavbar if the user is not logged in
   }
-
   return (
     <div className="fixed bottom-0 w-full bg-white shadow-md md:hidden">
       <div className="container mx-auto">
@@ -50,7 +48,7 @@ const BottomNavbar = () => {
           </button>
           <button
             className="flex flex-col items-center text-sm text-[#2bbef9] transition duration-300"
-            onClick={() => navigate('/categories')} // Navigate to categories page or open CatSidebar
+            // onClick={() => navigate(`${<CatSidebar/>}`)}
           >
             <LuLayoutGrid size={24} />
             <span>Category</span>
@@ -73,6 +71,7 @@ const BottomNavbar = () => {
       </div>
     </div>
   );
+  
 };
 
 export default BottomNavbar;

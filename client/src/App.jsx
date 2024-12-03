@@ -29,7 +29,7 @@ import Products from './pages/Products';
 import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 import PublicRoute from './PublicRoute';
 import CustomerDashboard from './pages/Public/CustomerDashboard';
-import CatSidebar from './pages/CatSidebar';
+// import CatSidebar from './pages/CatSidebar';
 
 const App = () => {
   return (
@@ -38,9 +38,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-            {/* <Route path="/" element={<Layout2 />}> */}
               <Route index element={<PublicRoute element={<Home />} />} />
-              <Route path="/categories" element={<CatSidebar />} />
               <Route path="/product-details/:productId" element={<ProductDetails />} />
               <Route path="/cart" element={<ProtectedRoute element={<Cart />} />} />
               <Route path="/checkout" element={<ProtectedRoute element={<Checkout />} />} />

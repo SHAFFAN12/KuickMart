@@ -2,6 +2,7 @@ import React from 'react';
 import { FaTruck, FaThumbsUp, FaUndo, FaLock, FaHeadset } from 'react-icons/fa';
 import banner1 from '../assets/banner-campaign-1.png';
 import banner2 from '../assets/banner-campaign-2.png';
+import banner3 from '../assets/speaker.png';
 
 const ServicesBar = () => {
   return (
@@ -47,6 +48,33 @@ const ServicesBar = () => {
         <img src={banner1} alt="Banner 1" className="w-full h-auto rounded-lg shadow-md" />
         <img src={banner2} alt="Banner 2" className="w-full h-auto rounded-lg shadow-md" />
       </div>
+
+
+      {/* <div className='grid grid-cols-2'>
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row items-center">
+  <div className="p-6 md:w-3/4"> 
+    <h6 className="text-gray-500 text-sm mb-2 ">
+      Save Now to find the Savings on Everything
+    </h6>
+    <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+      You Need For The
+    </h2>
+    <h1 className="text-4xl font-bold text-indigo-600">Big Game</h1>
+  </div>
+
+  <div className="md:w-3/4"> 
+    <img
+      src={banner3}
+      alt="Big Game Banner"
+      className="w-full h-full object-cover"
+    />
+  </div>
+</div>
+
+
+
+        <div>2</div>
+      </div> */}
     </>
   );
 };
